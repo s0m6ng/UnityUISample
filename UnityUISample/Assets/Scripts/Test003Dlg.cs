@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class Test003Dlg : MonoBehaviour
 {
-    public InputField[] m_InpArray = new InputField[3];
+    public InputField[] m_inpArray = new InputField[3];
     int[] num = new int[3];
 
-    public Text m_TxtResult = null;
-    public Button m_BtnOk = null;
-    public Button m_BtnClear = null;
+    public Text m_txtResult = null;
+    public Button m_btnOk = null;
+    public Button m_btnClear = null;
     private void Start()
     {
-        m_BtnOk.onClick.AddListener(OnClicked_Ok);
-        m_BtnClear.onClick.AddListener(OnClicked_Clear);
+        m_btnOk.onClick.AddListener(OnClicked_Ok);
+        m_btnClear.onClick.AddListener(OnClicked_Clear);
     }
 
 
@@ -20,15 +20,15 @@ public class Test003Dlg : MonoBehaviour
     {
         if (InpCheck())
         {
-            for (int i = 0; i < m_InpArray.Length; i++)
+            for (int i = 0; i < m_inpArray.Length; i++)
             {
-                num[i] = int.Parse(m_InpArray[i].text);
+                num[i] = int.Parse(m_inpArray[i].text);
             }
             IfSort();
-            m_TxtResult.text = $"가장 큰 값: {num[0]}\n";
+            m_txtResult.text = $"가장 큰 값: {num[0]}\n";
             for (int i = 0; i < num.Length; i++)
             {
-                m_TxtResult.text += $"{num[i]}{(i == num.Length - 1 ? "" : ",")}";
+                m_txtResult.text += $"{num[i]}{(i == num.Length - 1 ? "" : ",")}";
             }
         }
     }
@@ -61,11 +61,11 @@ public class Test003Dlg : MonoBehaviour
     }
     bool InpCheck()
     {
-        for (int i = 0; i < m_InpArray.Length; i++)
+        for (int i = 0; i < m_inpArray.Length; i++)
         {
-            if (string.IsNullOrEmpty(m_InpArray[i].text) || int.Parse(m_InpArray[i].text) < 0 || int.Parse(m_InpArray[i].text) > 100)
+            if (string.IsNullOrEmpty(m_inpArray[i].text) || int.Parse(m_inpArray[i].text) < 0 || int.Parse(m_inpArray[i].text) > 100)
             {
-                m_TxtResult.text = "0 ~ 100 값을 입력해주세요.";
+                m_txtResult.text = "0 ~ 100 값을 입력해주세요.";
                 return false;
             }
         }
@@ -73,14 +73,14 @@ public class Test003Dlg : MonoBehaviour
     }
     private void OnClicked_Clear()
     {
-        for (int i = 0; i < m_InpArray.Length; i++)
+        for (int i = 0; i < m_inpArray.Length; i++)
         {
-            m_InpArray[i].text = string.Empty;
+            m_inpArray[i].text = string.Empty;
         }
         for (int i = 0; i < num.Length; i++)
         {
             num[i] = 0;
         }
-        m_TxtResult.text = "Result";
+        m_txtResult.text = "Result";
     }
 }

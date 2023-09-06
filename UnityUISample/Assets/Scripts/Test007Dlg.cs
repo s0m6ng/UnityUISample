@@ -4,33 +4,33 @@ using UnityEngine.UI;
 
 public class Test007Dlg : MonoBehaviour
 {
-    public Button m_BtnOk = null;
-    public Button m_BtnClear = null;
-    public Button m_BtnAdd = null;
-    public InputField m_InpNum = null;
-    public Text m_TxtAddNumber = null;
-    public Text m_TxtResult = null;
+    public Button m_btnOk = null;
+    public Button m_btnClear = null;
+    public Button m_btnAdd = null;
+    public InputField m_inpNum = null;
+    public Text m_txtAddNumber = null;
+    public Text m_txtResult = null;
     List<int> nums = new List<int>();
     void Start()
     {
-        m_BtnOk.onClick.AddListener(OnClicked_Ok);
-        m_BtnClear.onClick.AddListener(OnClicked_Clear);
-        m_BtnAdd.onClick.AddListener(OnClicked_Add);
+        m_btnOk.onClick.AddListener(OnClicked_Ok);
+        m_btnClear.onClick.AddListener(OnClicked_Clear);
+        m_btnAdd.onClick.AddListener(OnClicked_Add);
     }
 
     private void OnClicked_Add()
     {
-        if (string.IsNullOrEmpty(m_InpNum.text) || nums.Count >= 5) return;
-        int num = int.Parse(m_InpNum.text);
+        if (string.IsNullOrEmpty(m_inpNum.text) || nums.Count >= 5) return;
+        int num = int.Parse(m_inpNum.text);
         if (num < 0 || num > 100) return;
         nums.Add(num);
-        m_TxtAddNumber.text = PrintList();
+        m_txtAddNumber.text = PrintList();
     }
     private void OnClicked_Ok()
     {
-        m_TxtResult.text = string.Empty;
+        m_txtResult.text = string.Empty;
         nums.Sort((a, b) => a > b ? 1 : -1);
-        m_TxtResult.text = PrintList();
+        m_txtResult.text = PrintList();
     }
     string PrintList()
     {
@@ -44,7 +44,7 @@ public class Test007Dlg : MonoBehaviour
     private void OnClicked_Clear()
     {
         nums.Clear();
-        m_TxtResult.text = "Result";
-        m_TxtAddNumber.text = "숫자 리스트";
+        m_txtResult.text = "Result";
+        m_txtAddNumber.text = "숫자 리스트";
     }
 }

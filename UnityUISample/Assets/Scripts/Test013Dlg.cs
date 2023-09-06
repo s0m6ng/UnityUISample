@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Test012Dlg : MonoBehaviour
+public class Test013Dlg : MonoBehaviour
 {
     public InputField m_inpName = null;
     public InputField m_inpKor = null;
@@ -9,39 +10,59 @@ public class Test012Dlg : MonoBehaviour
     public InputField m_inpMath = null;
     public Button m_btnOk = null;
     public Button m_btnClear = null;
+    public Button m_btnAdd = null;
     public Text m_txtResult = null;
+    public Text m_txtAddResult = null;
+    List<Score013> m_Scores = new List<Score013>();
     void Start()
     {
         m_btnOk.onClick.AddListener(OnClicked_Ok);
         m_btnClear.onClick.AddListener(OnClicked_Clear);
+        m_btnAdd.onClick.AddListener(OnClicked_Add);
     }
 
-    private void OnClicked_Ok()
+    private void OnClicked_Add()
     {
         if (InpCheck())
         {
             m_txtResult.text = string.Empty;
-            Score012 m_score = new Score012(m_inpName.text, int.Parse(m_inpKor.text), int.Parse(m_inpEng.text), int.Parse(m_inpMath.text));
+            Score013 m_score = new Score013(m_inpName.text, int.Parse(m_inpKor.text), int.Parse(m_inpEng.text), int.Parse(m_inpMath.text));
+            m_Scores.Add(m_score);
+            InpClear();
+            PrintAddResult();
+        }
+    }
 
-            m_txtResult.text = $"이름: {m_score.Name}\n";
-            m_txtResult.text += $"국어: {m_score.Kor}\n";
-            m_txtResult.text += $"영어: {m_score.Eng}\n";
-            m_txtResult.text += $"수학: {m_score.Math}\n";
-            m_txtResult.text += $"합계: {m_score.Sum}\n";
-            m_txtResult.text += $"평균: {m_score.Avg:F2}\n";
+    private void OnClicked_Ok()
+    {
+        m_txtResult.text = $"[성적관리] 이름 : 국어, 영어, 수학 : 합계, 평균\n";
+        m_txtResult.text += $"====================================================\n";
+
+        List<Score013> m_temps = m_Scores;
+        m_temps.Sort((a, b) => a.Sum < b.Sum ? 1 : -1);
+        for (int i = 0; i < m_Scores.Count; i++)
+        {
+            Score013 m_score = m_temps[i];
+            m_txtResult.text += $"{m_score.Name}: {m_score.Kor}, {m_score.Eng}, {m_score.Math} : 합계={m_score.Sum}, 평균={m_score.Avg:F2}\n";
         }
     }
 
     private void OnClicked_Clear()
     {
-        m_inpName.text = string.Empty;
-        m_inpKor.text = string.Empty;
-        m_inpEng.text = string.Empty;
-        m_inpMath.text = string.Empty;
+        m_Scores.Clear();
+        m_txtAddResult.text = string.Empty;
         m_txtResult.text = "Result";
+        InpClear();
     }
-
-
+    void PrintAddResult()
+    {
+        m_txtAddResult.text = $"이름: 국어, 영어, 수학\n";
+        for (int i = 0; i < m_Scores.Count; i++)
+        {
+            Score013 m_score = m_Scores[i];
+            m_txtAddResult.text += $"{m_score.Name}: {m_score.Kor}, {m_score.Eng}, {m_score.Math}\n";
+        }
+    }
     bool InpCheck()
     {
         if (string.IsNullOrEmpty(m_inpName.text))
@@ -66,8 +87,16 @@ public class Test012Dlg : MonoBehaviour
         }
         return ScoreCheck(m_inpKor) && ScoreCheck(m_inpEng) && ScoreCheck(m_inpMath);
     }
+
+    void InpClear()
+    {
+        m_inpName.text = string.Empty;
+        m_inpKor.text = string.Empty;
+        m_inpEng.text = string.Empty;
+        m_inpMath.text = string.Empty;
+    }
 }
-public class Score012
+public class Score013
 {
     string m_Name;
     int m_Kor;
@@ -105,7 +134,7 @@ public class Score012
         get { return m_Avg; }
         private set { m_Avg = value; }
     }
-    public Score012(string name, int kor, int eng, int math)
+    public Score013(string name, int kor, int eng, int math)
     {
         m_Name = name;
         m_Kor = kor;

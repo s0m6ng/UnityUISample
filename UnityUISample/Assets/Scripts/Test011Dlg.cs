@@ -4,77 +4,77 @@ using UnityEngine.UI;
 
 public class Test011Dlg : MonoBehaviour
 {
-    public InputField m_InpName = null;
-    public InputField m_InpHp = null;
-    public Button m_BtnOk = null;
-    public Button m_BtnClear = null;
-    public Button m_BtnAdd = null;
-    public Text m_TxtResult = null;
-    public Text m_TxtAddResult = null;
-    List<Enemy> m_Enemys = new List<Enemy>();
+    public InputField m_inpName = null;
+    public InputField m_inpHp = null;
+    public Button m_btnOk = null;
+    public Button m_btnClear = null;
+    public Button m_btnAdd = null;
+    public Text m_txtResult = null;
+    public Text m_txtAddResult = null;
+    List<Enemy011> m_Enemys = new List<Enemy011>();
     void Start()
     {
-        m_BtnOk.onClick.AddListener(OnClicked_Ok);
-        m_BtnClear.onClick.AddListener(OnClicked_Clear);
-        m_BtnAdd.onClick.AddListener(OnClicked_Add);
+        m_btnOk.onClick.AddListener(OnClicked_Ok);
+        m_btnClear.onClick.AddListener(OnClicked_Clear);
+        m_btnAdd.onClick.AddListener(OnClicked_Add);
     }
 
     private void OnClicked_Ok()
     {
-        m_TxtResult.text = string.Empty;
+        m_txtResult.text = string.Empty;
         m_Enemys.Sort((a, b) => a.Hp > b.Hp ? 1 : -1);
         for (int i = 0; i < m_Enemys.Count; i++)
         {
             m_Enemys[i].SetDamage(80);
-            m_TxtResult.text += $"{i + 1}. Name={m_Enemys[i].name}, HP={m_Enemys[i].Hp}\n";
+            m_txtResult.text += $"{i + 1}. Name={m_Enemys[i].name}, HP={m_Enemys[i].Hp}\n";
         }
     }
 
     private void OnClicked_Clear()
     {
         m_Enemys.Clear();
-        m_InpName.text = string.Empty;
-        m_InpHp.text = string.Empty;
-        m_TxtResult.text = "Result";
-        m_TxtAddResult.text = "Result";
+        m_inpName.text = string.Empty;
+        m_inpHp.text = string.Empty;
+        m_txtResult.text = "Result";
+        m_txtAddResult.text = "Result";
     }
 
     private void OnClicked_Add()
     {
         if (InpCheck())
         {
-            m_TxtAddResult.text = string.Empty;
-            Enemy temp = new Enemy(m_InpName.text, int.Parse(m_InpHp.text));
+            m_txtAddResult.text = string.Empty;
+            Enemy011 temp = new Enemy011(m_inpName.text, int.Parse(m_inpHp.text));
             m_Enemys.Add(temp);
             for (int i = 0; i < m_Enemys.Count; i++)
             {
-                m_TxtAddResult.text += $"({m_Enemys[i].name}:{m_Enemys[i].Hp}), ";
+                m_txtAddResult.text += $"({m_Enemys[i].name}:{m_Enemys[i].Hp}), ";
             }
-            m_InpName.text = string.Empty;
-            m_InpHp.text = string.Empty;
+            m_inpName.text = string.Empty;
+            m_inpHp.text = string.Empty;
         }
     }
 
     bool InpCheck()
     {
-        if (string.IsNullOrEmpty(m_InpName.text) || string.IsNullOrEmpty(m_InpHp.text))
+        if (string.IsNullOrEmpty(m_inpName.text) || string.IsNullOrEmpty(m_inpHp.text))
         {
-            m_TxtResult.text = "모든 항목을 입력해주세요.";
+            m_txtResult.text = "모든 항목을 입력해주세요.";
             return false;
         }
-        if (int.Parse(m_InpHp.text) < 0 || int.Parse(m_InpHp.text) > 100)
+        if (int.Parse(m_inpHp.text) < 0 || int.Parse(m_inpHp.text) > 100)
         {
-            m_TxtResult.text = "HP는 0~100 사이로 입력해주세요.";
+            m_txtResult.text = "HP는 0~100 사이로 입력해주세요.";
             return false;
         }
         return true;
     }
 }
-public class Enemy
+public class Enemy011
 {
     public string name;
     public int Hp;
-    public Enemy(string name, int Hp)
+    public Enemy011(string name, int Hp)
     {
         this.name = name;
         this.Hp = Hp;

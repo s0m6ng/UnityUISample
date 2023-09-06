@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class Test001Dlg : MonoBehaviour
 {
-    public Button m_BtnOk;
-    public Button m_BtnClear;
+    public Button m_btnOk;
+    public Button m_btnClear;
     public Text m_Result;
     int A;
     int B;
     private void Start()
     {
-        m_BtnOk.onClick.AddListener(() => OnClicked_Ok());
-        m_BtnClear.onClick.AddListener(() => OnClicked_Clear());
+        m_btnOk.onClick.AddListener(() => OnClicked_Ok());
+        m_btnClear.onClick.AddListener(() => OnClicked_Clear());
     }
     void Swap(ref int n1, ref int n2)
     {
