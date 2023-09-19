@@ -353,7 +353,7 @@ MonoBehaviour:
   m_btnOk: {fileID: 978851352}
   m_btnClear: {fileID: 765392712}
   m_btnAdd: {fileID: 1927078001}
-  m_btnOpen: {fileID: 0}
+  m_btnOpen: {fileID: 1815954014}
   m_txtAddResult: {fileID: 915676206}
   m_txtResult: {fileID: 1479838900}
   m_inpName: {fileID: 767897333}
@@ -1845,8 +1845,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 128.07956, y: -600}
-  m_SizeDelta: {x: 265.7026, y: 95.9286}
+  m_AnchoredPosition: {x: 131.75458, y: -600}
+  m_SizeDelta: {x: 268.4412, y: 95.9286}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &978851352
 MonoBehaviour:

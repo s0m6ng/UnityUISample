@@ -21,28 +21,31 @@ public class Test014Dlg : MonoBehaviour
         m_btnOk.onClick.AddListener(OnClicked_Ok);
         m_btnClear.onClick.AddListener(OnClicked_Clear);
         m_btnAdd.onClick.AddListener(OnClicked_Add);
-        m_btnOpen.onClick.AddListener(OnClicked_Open);
+        m_btnOpen.onClick.AddListener(FileLoad);
     }
 
     private void OnClicked_Ok()
     {
         if (m_scoreList.Count > 0)
         {
+            List<Score014> tempList = m_scoreList;
+            tempList.Sort((a, b) => a.sum < b.sum ? 1 : -1);
             float korsum = 0;
             float engsum = 0;
             float mathsum = 0;
             m_txtResult.text = "[성적 관리]\n";
             m_txtResult.text += "======================================\n";
-            for (int i = 0; i < m_scoreList.Count; i++)
+            for (int i = 0; i < tempList.Count; i++)
             {
-                Score014 temp = m_scoreList[i];
+                Score014 temp = tempList[i];
                 korsum += temp.kor;
                 engsum += temp.eng;
                 mathsum += temp.math;
-                m_txtResult.text += $"{temp.name}: {temp.kor}, {temp.eng}, {temp.math} 합계: {temp.sum}, 평균: {temp.avg:F2}\n";
+                m_txtResult.text += $"{i+1}. {temp.name}: {temp.kor}, {temp.eng}, {temp.math} 합계: {temp.sum}, 평균: {temp.avg:F2}\n";
             }
             m_txtResult.text += "======================================\n";
-            m_txtResult.text += $"[과목별 합계]\n국어:({korsum}, {korsum / m_scoreList.Count:F2}) 수학:({mathsum}, {mathsum / m_scoreList.Count:F2}) 영어:({engsum}, {engsum / m_scoreList.Count:F2})\n";
+            m_txtResult.text += $"[과목별 합계]\n국어:({korsum}, {korsum / tempList.Count:F2}) 수학:({mathsum}, {mathsum / tempList.Count:F2}) 영어:({engsum}, {engsum / tempList.Count:F2})\n";
+            FileSave();
         }
         else
             m_txtResult.text = "값이 존재하지 않습니다.";
@@ -68,15 +71,11 @@ public class Test014Dlg : MonoBehaviour
         {
             if (m_scoreList.Count == 0)
                 m_txtAddResult.text = string.Empty;
-            Score014 m_temp = new Score014(m_inpName.text, int.Parse(m_inpKor.text), int.Parse(m_inpEng.text), int.Parse(m_inpMath.text));
-            m_scoreList.Add(m_temp);
-            m_txtAddResult.text += $"{m_temp.name}: {m_temp.kor}, {m_temp.eng}, {m_temp.math}\n";
+            Score014 temp = new Score014(m_inpName.text, int.Parse(m_inpKor.text), int.Parse(m_inpEng.text), int.Parse(m_inpMath.text));
+            m_scoreList.Add(temp);
+            m_txtAddResult.text += $"{temp.name}: {temp.kor}, {temp.eng}, {temp.math}\n";
             InpClear();
         }
-    }
-
-    void OnClicked_Open()
-    {
     }
 
     bool InpCheck()
@@ -101,6 +100,37 @@ public class Test014Dlg : MonoBehaviour
             return true;
         }
         return ScoreCheck(m_inpKor) && ScoreCheck(m_inpEng) && ScoreCheck(m_inpMath);
+    }
+    void FileSave()
+    {
+        StreamWriter sw = new StreamWriter("score014.txt");
+        sw.WriteLine(m_scoreList.Count);
+        for (int i = 0; i < m_scoreList.Count; i++)
+        {
+            Score014 temp = m_scoreList[i];
+            sw.WriteLine(temp.name);
+            sw.WriteLine(temp.kor);
+            sw.WriteLine(temp.eng);
+            sw.WriteLine(temp.math);
+        }
+        sw.Close();
+    }
+    void FileLoad()
+    {
+        OnClicked_Clear();
+        StreamReader sr = new StreamReader("score014.txt");
+        int count = int.Parse(sr.ReadLine());
+        for (int i = 0; i < count; i++)
+        {
+            string name = sr.ReadLine();
+            int kor = int.Parse(sr.ReadLine());
+            int eng = int.Parse(sr.ReadLine());
+            int math = int.Parse(sr.ReadLine());
+            Score014 temp = new Score014(name, kor, eng, math);
+            m_scoreList.Add(temp);
+            m_txtAddResult.text += $"{name}: {kor}, {eng}, {math}\n";
+        }
+        sr.Close();
     }
 }
 public class Score014
